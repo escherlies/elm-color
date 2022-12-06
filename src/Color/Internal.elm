@@ -59,7 +59,21 @@ toCssString s =
 
 toHexString : Color -> String
 toHexString =
-    String.concat << List.map (String.padLeft 2 '0' << Hex.toString) << toRgba255List
+    String.concat << List.map (String.padLeft 2 '0' << Hex.toString) << dropAlpha << toRgba255List
+
+
+dropAlpha : List Int -> List Int
+dropAlpha rgbas =
+    case rgbas of
+        r :: g :: b :: a :: [] ->
+            if a == 0xFF then
+                [ r, g, b ]
+
+            else
+                rgbas
+
+        _ ->
+            rgbas
 
 
 
