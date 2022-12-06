@@ -84,16 +84,22 @@ Adapted from <https://www.w3.org/TR/css-color-3/#hsl-color>
 fromHsla : { hue : Float, saturation : Float, lightness : Float, alpha : Float } -> Color
 fromHsla { hue, saturation, lightness, alpha } =
     let
+        h =
+            hue |> fractionalModBy 360
+
         l =
-            lightness
+            range01 lightness
+
+        s =
+            range01 saturation
 
         f n =
             let
                 k =
-                    (n + fractionalModBy 360 hue / 30) |> fractionalModBy 12
+                    (n + h / 30) |> fractionalModBy 12
 
                 a =
-                    saturation * min l (1 - l)
+                    s * min l (1 - l)
             in
             l - a * max -1 (min (k - 3) (min (9 - k) 1))
     in
@@ -102,6 +108,27 @@ fromHsla { hue, saturation, lightness, alpha } =
         (f 8)
         (f 4)
         alpha
+
+
+
+-- Helpers
+
+
+range01 : number -> number
+range01 =
+    sanitizeRange 0 1
+
+
+sanitizeRange : comparable -> comparable -> comparable -> comparable
+sanitizeRange lowerIncluding upperIncluding f =
+    if f < lowerIncluding then
+        lowerIncluding
+
+    else if upperIncluding < f then
+        upperIncluding
+
+    else
+        f
 
 
 
