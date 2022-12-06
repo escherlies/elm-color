@@ -87,6 +87,8 @@ import Color.Hsl
 import Color.Internal exposing (Color(..), mapRgb)
 
 
+{-| The Color type representing a color in rgba space
+-}
 type alias Color =
     Color.Internal.Color
 
