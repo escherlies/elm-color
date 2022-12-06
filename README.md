@@ -6,7 +6,7 @@ A general library to work with web colors.
 
 You can now programmatically work with colors.
 
-![](./docs/Example.png)
+![](./docs/Example.eea79ce.png)
 
 # Usage
 
