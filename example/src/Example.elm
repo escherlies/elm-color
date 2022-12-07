@@ -1,6 +1,6 @@
 module Example exposing (..)
 
-import Color exposing (Color, fromHexUnsafe, hsl, rgb, rgb255, toCssString)
+import Color exposing (Color, fromHexUnsafe, fromPalette, hsl, rgb, rgb255, toCssString)
 import Element exposing (Element, el, text)
 import Element.Background
 import Html exposing (Html)
@@ -14,6 +14,11 @@ colors =
     , rgb 0.96 0.976 0.996
     , rgb255 122 137 194
     ]
+
+
+colorPalette : List Color
+colorPalette =
+    fromPalette "https://coolors.co/40f99b-61707d"
 
 
 green : Color

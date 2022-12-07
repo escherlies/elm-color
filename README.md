@@ -22,6 +22,11 @@ colors =
     ]
 
 
+colorPalette : List Color
+colorPalette =
+    fromPalette "https://coolors.co/40f99b-61707d"
+
+
 green : Color
 green =
     hsl 164 0.93 0.34

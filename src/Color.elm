@@ -1,13 +1,12 @@
 module Color exposing
     ( Color
-    , rgb255, rgb, rgba, hsl, hsla, rgba255
-    , fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
-    , gray
-    , fromHex, fromHexUnsafe
+    , rgb, hsl, rgb255, gray
+    , fromHex, fromPalette, fromHexUnsafe
     , toCssString, toRgba, toHsla, toHexString, toRgba255
     , invertRgb, setAlpha
     , getLightness
     , isLight
+    , rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
     )
 
 {-| A general library to work with web colors.
@@ -42,24 +41,14 @@ Example usage
 # Creating colors
 
 
-## From numbers
+## Standard way
 
-@docs rgb255, rgb, rgba, hsl, hsla, rgba255
-
-
-## From records
-
-@docs fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
+@docs rgb, hsl, rgb255, gray
 
 
-## Convenience
+## From strings
 
-@docs gray
-
-
-## Hex
-
-@docs fromHex, fromHexUnsafe
+@docs fromHex, fromPalette, fromHexUnsafe
 
 
 # Convert
@@ -81,10 +70,18 @@ Example usage
 
 @docs isLight
 
+
+# Variants
+
+More constructors
+
+@docs rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
+
 -}
 
 import Color.Hsl
 import Color.Internal exposing (Color(..), mapRgb)
+import Color.Palette
 
 
 {-| The Color type representing a color in rgba space
@@ -94,7 +91,7 @@ type alias Color =
 
 
 
--- Build
+-- Build, Standards
 
 
 {-| Provide the red, green, and blue channels for the color.
@@ -105,6 +102,35 @@ Each channel takes a value between 0 and 1.
 rgb : Float -> Float -> Float -> Color
 rgb =
     Color.Internal.rgb
+
+
+{-| Parses different palette formats
+
+    fromPalette "https://huemint.com/website-monochrome/#palette=fffffc-00eb80"
+    --> == List.filterMap Color.fromHex [ "fffffc", "00eb80" ] : List Color
+
+    fromPalette """
+                fffffc
+                00eb80
+                000000
+                """
+    --> == List.filterMap Color.fromHex [ "fffffc", "00eb80", "000000" ] : List Color
+
+    fromPalette "https://coolors.co/40f99b-61707d"
+    --> == List.filterMap Color.fromHex [ "40f99b", "61707d" ] : List Color
+
+    -- Infact, it works with everything that has 6 digits hex values
+    fromPalette "xxxxfffffc-00eb80x000000---"
+    --> == List.filterMap Color.fromHex [ "fffffc", "00eb80", "000000" ] : List Color
+
+-}
+fromPalette : String -> List Color
+fromPalette =
+    Color.Palette.fromPalette
+
+
+
+-- Build, convenience functions
 
 
 {-| Provide the red, green, blue, and alpha channels for the color.
