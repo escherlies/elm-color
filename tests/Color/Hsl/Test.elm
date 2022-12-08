@@ -14,7 +14,7 @@ equalFloat : Float -> Float -> Expect.Expectation
 equalFloat =
     Expect.within
         -- Pico precision
-        (Expect.Absolute 1.0e-6)
+        (Expect.Absolute 1.0e-12)
 
 
 suite : Test
