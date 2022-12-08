@@ -9,7 +9,7 @@ module Color exposing
     , rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
     )
 
-{-| A general library to work with web colors.
+{-| An Elm package to programmatically work with web colors.
 
 Example usage
 

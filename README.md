@@ -1,16 +1,17 @@
 # elm-color
 
-A general library to work with web colors.
+An Elm package to programmatically work with web colors.
 
 # Example
 
-You can now programmatically work with colors.
 
 ![](./docs/Example.b3f19e1.png)
 
+You can find this example at `example/src/Main.elm`.
+
 # Usage
 
-Use one of the builders to create a color
+Build using different constructors, or manipulate values, i.e., change the lightness of a color in the HSL space.
 
 ```elm
 colors : List Color
