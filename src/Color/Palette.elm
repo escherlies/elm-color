@@ -1,13 +1,14 @@
 module Color.Palette exposing (fromPalette, parsePalette)
 
 import Char
+import Color.Hex
 import Color.Internal exposing (Color(..))
 import Parser exposing ((|.), (|=), Parser, Step(..), chompWhile, end, getChompedString, oneOf, run, succeed)
 
 
 fromPalette : String -> List Color
 fromPalette =
-    List.filterMap Color.Internal.fromHexString << Result.withDefault [] << parsePalette
+    List.filterMap Color.Hex.fromHexString << Result.withDefault [] << parsePalette
 
 
 {-| Parses different palette formats

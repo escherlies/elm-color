@@ -83,6 +83,7 @@ More constructors
 
 -}
 
+import Color.Hex
 import Color.Hsl
 import Color.Internal exposing (Color(..), mapRgb)
 import Color.Palette
@@ -291,14 +292,14 @@ Can handle different formats:
 -}
 fromHex : String -> Maybe Color
 fromHex =
-    Color.Internal.fromHexString
+    Color.Hex.fromHexString
 
 
 {-| Like fromHex, but uses transparent (`rgba 0 0 0 0`) as default value.
 -}
 fromHexUnsafe : String -> Color
 fromHexUnsafe =
-    Maybe.withDefault (rgba 0 0 0 0) << Color.Internal.fromHexString
+    Maybe.withDefault (rgba 0 0 0 0) << Color.Hex.fromHexString
 
 
 
@@ -354,7 +355,7 @@ toRgba255 =
 -}
 toCssString : Color -> String
 toCssString =
-    Color.Internal.toCssString
+    Color.Hex.toCssString
 
 
 {-| Convert a color to an hex string. Use `toCssString` if you want a `#`-prefixed hex value.
@@ -364,7 +365,7 @@ toCssString =
 -}
 toHexString : Color -> String
 toHexString =
-    Color.Internal.toHexString
+    Color.Hex.toHexString
 
 
 

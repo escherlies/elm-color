@@ -1,6 +1,7 @@
-module Color.Internal.Test exposing (..)
+module Color.Test exposing (..)
 
-import Color.Internal exposing (Color(..), intFromColorString, rgb, rgba, rgba255)
+import Color.Hex
+import Color.Internal exposing (Color(..), rgb, rgba, rgba255)
 import Color.Palette exposing (parsePalette)
 import Expect
 import Fuzz
@@ -45,49 +46,59 @@ suite =
                 (\_ ->
                     Expect.equal
                         (Color.Internal.rgba255 255 255 255 255)
-                        (Color.Internal.fromInt 0xFFFFFFFF)
+                        (Color.Hex.fromInt 0xFFFFFFFF)
                 )
             , test "Convert color from int 2"
                 (\_ ->
                     Expect.equal
                         (rgba255 0 0 0 255)
-                        (Color.Internal.fromInt 0xFF)
+                        (Color.Hex.fromInt 0xFF)
                 )
             , test "Convert color from int 3"
                 (\_ ->
                     Expect.equal
                         (rgba255 255 255 255 255)
-                        (Color.Internal.fromInt 0xFFFFFFFF)
+                        (Color.Hex.fromInt 0xFFFFFFFF)
                 )
             , test "Convert color from int 4"
                 (\_ ->
                     Expect.equal
                         (rgb 1 1 1)
-                        (Color.Internal.fromInt 0xFFFFFFFF)
+                        (Color.Hex.fromInt 0xFFFFFFFF)
                 )
             , test "Convert color from int 6"
                 (\_ ->
                     Expect.equal
                         (rgba 0 1 1 1)
-                        (Color.Internal.fromInt 0x00FFFFFF)
+                        (Color.Hex.fromInt 0x00FFFFFF)
                 )
             , fuzz (Fuzz.intRange 0x0FFFFFFF 0xFFFFFFFF)
                 --                ^^^^^^^^^^ we only want 8-digit hex values, since FFF gets converted to F0F0F0FF
                 "Strip prefix and parse"
                 (\int ->
-                    Hex.toString int |> intFromColorString |> Expect.equal (Ok int)
+                    Hex.toString int |> Color.Hex.intFromColorString |> Expect.equal (Ok int)
                 )
-            , test "3-digit hex vales" (\_ -> Expect.equal (Just (Rgba 1 1 1 1)) (Color.Internal.fromHexString "#FFF"))
-            , test "3-digit hex values 2" (\_ -> Expect.equal (Just (Rgba 1 0 1 1)) (Color.Internal.fromHexString "#F0F"))
-            , test "6-digit hex vales" (\_ -> Expect.equal (Just (Rgba 1 1 1 1)) (Color.Internal.fromHexString "#FFFFFF"))
-            , test "white" (\_ -> Expect.equal (Just (Rgba 1 1 1 1)) (Color.Internal.fromHexString "#FFFFFFFF"))
-            , test "black" (\_ -> Expect.equal (Just (Rgba 0 0 0 1)) (Color.Internal.fromHexString "#000000FF"))
+            , test "3-digit hex vales" (\_ -> Expect.equal (Just (Rgba 1 1 1 1)) (Color.Hex.fromHexString "#FFF"))
+            , test "3-digit hex values 2" (\_ -> Expect.equal (Just (Rgba 1 0 1 1)) (Color.Hex.fromHexString "#F0F"))
+            , test "6-digit hex vales" (\_ -> Expect.equal (Just (Rgba 1 1 1 1)) (Color.Hex.fromHexString "#FFFFFF"))
+            , test "white" (\_ -> Expect.equal (Just (Rgba 1 1 1 1)) (Color.Hex.fromHexString "#FFFFFFFF"))
+            , test "black" (\_ -> Expect.equal (Just (Rgba 0 0 0 1)) (Color.Hex.fromHexString "#000000FF"))
             , fuzz fuzzCssColor
                 "Parsing and converting css hex color"
                 (\cssColor ->
                     cssColor
-                        |> Color.Internal.fromHexString
-                        |> Maybe.map Color.Internal.toCssString
+                        |> Color.Hex.fromHexString
+                        |> Maybe.map Color.Hex.toCssString
+                        |> Maybe.map
+                            (\s ->
+                                -- Since toCssString returns only a 6 digit hex string,
+                                -- adjust it back, so it can be compared to (Just cssColor)
+                                if String.length s == 7 then
+                                    s ++ "ff"
+
+                                else
+                                    s
+                            )
                         |> Expect.equal (Just cssColor)
                 )
             ]
