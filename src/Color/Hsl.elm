@@ -88,10 +88,10 @@ fromHsla { hue, saturation, lightness, alpha } =
             hue |> fractionalModBy 360
 
         l =
-            range01 lightness
+            clamp01 lightness
 
         s =
-            range01 saturation
+            clamp01 saturation
 
         f n =
             let
@@ -114,21 +114,9 @@ fromHsla { hue, saturation, lightness, alpha } =
 -- Helpers
 
 
-range01 : number -> number
-range01 =
-    sanitizeRange 0 1
-
-
-sanitizeRange : comparable -> comparable -> comparable -> comparable
-sanitizeRange lowerIncluding upperIncluding f =
-    if f < lowerIncluding then
-        lowerIncluding
-
-    else if upperIncluding < f then
-        upperIncluding
-
-    else
-        f
+clamp01 : number -> number
+clamp01 =
+    clamp 0 1
 
 
 
