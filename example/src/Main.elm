@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Color exposing (fromHexUnsafe, hsl, hsla, rgb, rgb255, toCssString, toHsla)
+import Color exposing (fromHexUnsafe, gray, hsl, hsla, rgb, rgb255, toCssString, toHsla)
 import Element exposing (alpha, centerX, centerY, column, el, fill, height, layout, padding, paragraph, px, row, spacing, text, width)
 import Element.Background
 import Element.Font
@@ -29,6 +29,7 @@ view _ =
         , height fill
         , Element.Font.size 12
         , Element.Font.family [ Element.Font.monospace ]
+        , Element.Background.color (toElementColor (gray 0.92))
         ]
         (column
             [ centerX
@@ -42,7 +43,7 @@ view _ =
                 [ shadesAnnotation
                 , viewShades "hsl 194 0.49 0.14" (hsl 194 0.49 0.14)
                 , viewShades "fromHex \"#06A77D\"" (fromHexUnsafe "#06A77D")
-                , viewShades "rgb 0.96 0.976 0.996" (rgb 0.96 0.976 0.996)
+                , viewShades "rgb 0.96 0.98 0.99" (rgb 0.96 0.98 0.99)
                 , viewShades "rgb255 122 137 194" (rgb255 122 137 194)
                 ]
             , row [ width fill ]
@@ -89,7 +90,7 @@ shades color =
                 in
                 el
                     [ Element.Background.color (toElementColor c)
-                    , width (px 170)
+                    , width (px 130)
                     , height (px 50)
                     , Element.Font.center
                     , Element.inFront

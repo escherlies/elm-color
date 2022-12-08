@@ -6,7 +6,7 @@ A general library to work with web colors.
 
 You can now programmatically work with colors.
 
-![](./docs/Example.eea79ce.png)
+![](./docs/Example.b3f19e1.png)
 
 # Usage
 
@@ -64,5 +64,4 @@ toElementColor =
 
 ## Drop in replacement for avh4/elm-color
 
-This library is a new implementation but shares the same api as [avh4/elm-color](https://package.elm-lang.org/packages/avh4/elm-color/latest/). Since that library doesn't seem to be actively maintained anymore, you can use this lib as a drop-in replacement.
-
+This package is a new implementation from the ground up with many more features. However, it shares the same api as [avh4/elm-color](https://package.elm-lang.org/packages/avh4/elm-color/latest/). Since that package doesn't seem to be actively maintained anymore, you can use this new package as a drop-in replacement.
