@@ -1,4 +1,4 @@
-module Color.Hue.Test exposing (..)
+module Color.Hsl.Test exposing (..)
 
 import Color
 import Color.Data.Basic exposing (Basic, basic)
