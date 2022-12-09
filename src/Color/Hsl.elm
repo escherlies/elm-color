@@ -1,7 +1,7 @@
 module Color.Hsl exposing (..)
 
-import Color.Internal exposing (Color(..))
-import Color.Utils exposing (fractionalModBy)
+import Color.Internal exposing (Color(..), rgba)
+import Color.Utils exposing (clamp01, fractionalModBy)
 
 
 {-| From rgba color
@@ -81,8 +81,8 @@ Adapted from <https://www.w3.org/TR/css-color-3/#hsl-color>
 ```
 
 -}
-fromHsla : { hue : Float, saturation : Float, lightness : Float, alpha : Float } -> Color
-fromHsla { hue, saturation, lightness, alpha } =
+hsla : Float -> Float -> Float -> Float -> Color
+hsla hue saturation lightness alpha =
     let
         h =
             hue |> fractionalModBy 360
@@ -103,7 +103,7 @@ fromHsla { hue, saturation, lightness, alpha } =
             in
             l - a * max -1 (min (k - 3) (min (9 - k) 1))
     in
-    Rgba
+    rgba
         (f 0)
         (f 8)
         (f 4)
@@ -111,26 +111,18 @@ fromHsla { hue, saturation, lightness, alpha } =
 
 
 
--- Helpers
-
-
-clamp01 : number -> number
-clamp01 =
-    clamp 0 1
-
-
-
 -- Convenience
 
 
-hsla : Float -> Float -> Float -> Float -> Color
-hsla h s l a =
-    fromHsla
-        { hue = h
-        , saturation = s
-        , lightness = l
-        , alpha = a
-        }
+fromHsla :
+    { hue : Float
+    , saturation : Float
+    , lightness : Float
+    , alpha : Float
+    }
+    -> Color
+fromHsla { hue, saturation, lightness, alpha } =
+    hsla hue saturation lightness alpha
 
 
 hsl : Float -> Float -> Float -> Color

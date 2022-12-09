@@ -23,3 +23,8 @@ Source: <https://github.com/elm-community/basics-extra/blob/4.1.0/src/Basics/Ext
 fractionalModBy : Float -> Float -> Float
 fractionalModBy modulus x =
     x - modulus * toFloat (floor (x / modulus))
+
+
+clamp01 : number -> number
+clamp01 =
+    clamp 0 1

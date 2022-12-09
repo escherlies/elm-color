@@ -1,7 +1,7 @@
 module Color.Transform exposing (..)
 
 import Color.Hsl
-import Color.Internal exposing (Color(..))
+import Color.Internal exposing (Color(..), rgba)
 
 
 
@@ -10,27 +10,27 @@ import Color.Internal exposing (Color(..))
 
 mapRgb : (Float -> Float) -> Color -> Color
 mapRgb fn (Rgba r g b a) =
-    Rgba (fn r) (fn g) (fn b) a
+    rgba (fn r) (fn g) (fn b) a
 
 
 mapRed : (Float -> Float) -> Color -> Color
 mapRed fn (Rgba r g b a) =
-    Rgba (fn r) g b a
+    rgba (fn r) g b a
 
 
 mapGreen : (Float -> Float) -> Color -> Color
 mapGreen fn (Rgba r g b a) =
-    Rgba r (fn g) b a
+    rgba r (fn g) b a
 
 
 mapBlue : (Float -> Float) -> Color -> Color
 mapBlue fn (Rgba r g b a) =
-    Rgba r g (fn b) a
+    rgba r g (fn b) a
 
 
 mapAlpha : (Float -> Float) -> Color -> Color
 mapAlpha fn (Rgba r g b a) =
-    Rgba r g b (fn a)
+    rgba r g b (fn a)
 
 
 

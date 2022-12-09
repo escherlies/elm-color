@@ -1,5 +1,7 @@
 module Color.Internal exposing (..)
 
+import Color.Utils exposing (clamp01)
+
 
 type Color
     = Rgba Float Float Float Float
@@ -10,13 +12,17 @@ type Color
 
 
 rgba : Float -> Float -> Float -> Float -> Color
-rgba =
+rgba r g b a =
     Rgba
+        (clamp01 r)
+        (clamp01 g)
+        (clamp01 b)
+        (clamp01 a)
 
 
 rgb : Float -> Float -> Float -> Color
 rgb r g b =
-    Rgba r g b 1.0
+    rgba r g b 1.0
 
 
 
@@ -43,7 +49,7 @@ toRgba255 (Rgba r g b a) =
 
 rgb255 : Int -> Int -> Int -> Color
 rgb255 r g b =
-    Rgba
+    rgba
         (toFloat r / 0xFF)
         (toFloat g / 0xFF)
         (toFloat b / 0xFF)
@@ -52,7 +58,7 @@ rgb255 r g b =
 
 rgba255 : Int -> Int -> Int -> Int -> Color
 rgba255 r g b a =
-    Rgba
+    rgba
         (toFloat r / 0xFF)
         (toFloat g / 0xFF)
         (toFloat b / 0xFF)

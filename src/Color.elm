@@ -92,7 +92,7 @@ More constructors
 
 import Color.Hex
 import Color.Hsl
-import Color.Internal exposing (Color(..))
+import Color.Internal exposing (Color)
 import Color.Palette
 import Color.Transform
 
@@ -408,8 +408,8 @@ invertRgb =
 {-| Set the alpha of the color
 -}
 setAlpha : Float -> Color -> Color
-setAlpha a (Rgba r g b _) =
-    Rgba r g b a
+setAlpha a =
+    mapAlpha (always a)
 
 
 
