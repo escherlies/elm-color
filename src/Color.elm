@@ -6,7 +6,9 @@ module Color exposing
     , invertRgb, setAlpha
     , getLightness
     , isLight
+    , mapRgb, mapRed, mapGreen, mapBlue, mapAlpha
     , rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
+    , mapHue, mapLightness, mapSaturation
     )
 
 {-| An Elm package to programmatically work with web colors.
@@ -75,6 +77,11 @@ Example usage
 @docs isLight
 
 
+# Transform
+
+@docs mapRgb, mapRed, mapGreen, mapBlue, mapAlpha
+
+
 # Variants
 
 More constructors
@@ -85,8 +92,9 @@ More constructors
 
 import Color.Hex
 import Color.Hsl
-import Color.Internal exposing (Color(..), mapRgb)
+import Color.Internal exposing (Color(..))
 import Color.Palette
+import Color.Transform
 
 
 {-| The Color type representing a color in rgba space
@@ -394,7 +402,7 @@ isLight =
 -}
 invertRgb : Color -> Color
 invertRgb =
-    mapRgb (\c -> 1 - c)
+    Color.Transform.mapRgb (\c -> 1 - c)
 
 
 {-| Set the alpha of the color
@@ -402,3 +410,73 @@ invertRgb =
 setAlpha : Float -> Color -> Color
 setAlpha a (Rgba r g b _) =
     Rgba r g b a
+
+
+
+-- Transform HSL
+
+
+{-| Map the hue of the color in HSL space
+-}
+mapHue : (Float -> Float) -> Color -> Color
+mapHue =
+    Color.Transform.mapHue
+
+
+{-| Map the saturation of the color in HSL space
+-}
+mapSaturation : (Float -> Float) -> Color -> Color
+mapSaturation =
+    Color.Transform.mapSaturation
+
+
+{-| Map the lightness in the HSL space
+
+    darken : Color -> Color
+    darken =
+        mapLightness ((*) 0.95)
+
+-}
+mapLightness : (Float -> Float) -> Color -> Color
+mapLightness =
+    Color.Transform.mapLightness
+
+
+
+-- Transform RGB
+
+
+{-| Map over rgb channels
+
+    invertRgb : Color -> Color
+    invertRgb =
+        mapRgb (\c -> 1 - c)
+
+-}
+mapRgb : (Float -> Float) -> Color -> Color
+mapRgb =
+    Color.Transform.mapRgb
+
+
+{-| -}
+mapRed : (Float -> Float) -> Color -> Color
+mapRed =
+    Color.Transform.mapRed
+
+
+{-| -}
+mapGreen : (Float -> Float) -> Color -> Color
+mapGreen =
+    Color.Transform.mapGreen
+
+
+{-| -}
+mapBlue : (Float -> Float) -> Color -> Color
+mapBlue =
+    Color.Transform.mapBlue
+
+
+{-| -}
+mapAlpha : (Float -> Float) -> Color -> Color
+mapAlpha =
+    Color.Transform.mapAlpha
