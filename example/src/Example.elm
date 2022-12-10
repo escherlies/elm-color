@@ -7,6 +7,26 @@ import Html exposing (Html)
 import Html.Attributes exposing (style)
 
 
+
+{- # elm-color
+
+   An Elm package to programmatically work with web colors.
+
+
+   # Example
+
+   ![](./docs/Example.b3f19e1.png)
+
+   You can find this example at `example/src/Main.elm`.
+
+
+   # Usage
+
+   Build using different constructors, or manipulate values, i.e., change the lightness of a color in the HSL space.
+
+-}
+
+
 colors : List Color
 colors =
     [ hsl 194 0.49 0.14
@@ -52,3 +72,13 @@ view =
 toElementColor : Color -> Element.Color
 toElementColor =
     Element.fromRgb << Color.toRgba
+
+
+
+{- # Notes
+
+   ## Drop in replacement for avh4/elm-color
+
+   This package is a new implementation from the ground up with many more features. However, it shares the same api as [avh4/elm-color](https://package.elm-lang.org/packages/avh4/elm-color/latest/). Since that package doesn't seem to be actively maintained anymore, you can use this new package as a drop-in replacement.
+
+-}
