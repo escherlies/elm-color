@@ -69,4 +69,8 @@ toElementColor =
 
 This package is a new implementation from the ground up with many more features. However, it shares the same api as [avh4/elm-color](https://package.elm-lang.org/packages/avh4/elm-color/latest/). Since that package doesn't seem to be actively maintained anymore, you can use this new package as a drop-in replacement.
 
+## Compiled elm readme
+
+To make sure the examples work, this readme is compiled with [elm-generate-readme](https://github.com/escherlies/elm-generate-readme) :)
+
 
