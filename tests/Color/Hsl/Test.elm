@@ -4,17 +4,11 @@ import Color
 import Color.Data.Basic exposing (Basic, basic)
 import Color.Hsl
 import Color.Internal exposing (Color(..))
+import Color.Test.Utils exposing (equalFloat)
 import Color.Utils exposing (fractionalModBy)
 import Expect
 import Fuzz
 import Test exposing (..)
-
-
-equalFloat : Float -> Float -> Expect.Expectation
-equalFloat =
-    Expect.within
-        -- Pico precision
-        (Expect.Absolute 1.0e-12)
 
 
 suite : Test

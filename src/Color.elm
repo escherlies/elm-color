@@ -1,14 +1,13 @@
 module Color exposing
     ( Color
-    , rgb, hsl, rgb255, gray
+    , rgb, hsl, gray
     , fromHex, fromPalette, fromHexUnsafe
     , toCssString, toRgba, toHsla, toHexString, toRgba255
     , invertRgb, setAlpha
-    , getLightness
-    , isLight
+    , isLight, lightness
     , mapRgb, mapRed, mapGreen, mapBlue, mapAlpha
-    , rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
     , mapHue, mapLightness, mapSaturation
+    , rgb255, rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
     )
 
 {-| An Elm package to programmatically work with web colors.
@@ -49,7 +48,7 @@ Example usage
 
 ## Standard way
 
-@docs rgb, hsl, rgb255, gray
+@docs rgb, hsl, gray
 
 
 ## From strings
@@ -67,34 +66,39 @@ Example usage
 @docs invertRgb, setAlpha
 
 
-# Extract
+# Lightness
 
-@docs getLightness
-
-
-# Get info
-
-@docs isLight
+@docs isLight, lightness
 
 
 # Transform
 
+
+## Rgb
+
 @docs mapRgb, mapRed, mapGreen, mapBlue, mapAlpha
+
+
+## HSL
+
+@docs mapHue, mapLightness, mapSaturation
 
 
 # Variants
 
 More constructors
 
-@docs rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
+@docs rgb255, rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
 
 -}
 
 import Color.Hex
 import Color.Hsl
-import Color.Internal exposing (Color)
+import Color.Internal exposing (Color(..))
+import Color.Lightness
 import Color.Palette
 import Color.Transform
+import Color.Utils exposing (callTrice)
 
 
 {-| The Color type representing a color in rgba space
@@ -120,21 +124,21 @@ rgb =
 {-| Parses different palette formats
 
     fromPalette "https://huemint.com/website-monochrome/#palette=fffffc-00eb80"
-    --> == List.filterMap Color.fromHex [ "fffffc", "00eb80" ] : List Color
+    --> List.filterMap Color.fromHex [ "fffffc", "00eb80" ] : List Color
 
     fromPalette """
                 fffffc
                 00eb80
                 000000
                 """
-    --> == List.filterMap Color.fromHex [ "fffffc", "00eb80", "000000" ] : List Color
+    --> List.filterMap Color.fromHex [ "fffffc", "00eb80", "000000" ] : List Color
 
     fromPalette "https://coolors.co/40f99b-61707d"
-    --> == List.filterMap Color.fromHex [ "40f99b", "61707d" ] : List Color
+    --> List.filterMap Color.fromHex [ "40f99b", "61707d" ] : List Color
 
     -- Infact, it works with everything that has 6 digits hex values
     fromPalette "xxxxfffffc-00eb80x000000---"
-    --> == List.filterMap Color.fromHex [ "fffffc", "00eb80", "000000" ] : List Color
+    --> List.filterMap Color.fromHex [ "fffffc", "00eb80", "000000" ] : List Color
 
 -}
 fromPalette : String -> List Color
@@ -250,8 +254,8 @@ fromHsl :
     , lightness : Float
     }
     -> Color
-fromHsl { hue, saturation, lightness } =
-    Color.Hsl.hsla hue saturation lightness 1
+fromHsl hsl_ =
+    Color.Hsl.hsla hsl_.hue hsl_.saturation hsl_.lightness 1
 
 
 {-| Create a color from an HSL(a) record
@@ -275,8 +279,8 @@ fromHsla =
 {-| Create a gray color. I.e. for a 50% gray: `gray 0.5`
 -}
 gray : Float -> Color
-gray f =
-    rgb f f f
+gray =
+    callTrice rgb
 
 
 
@@ -377,21 +381,27 @@ toHexString =
 
 
 
--- Extract
+-- Lightness
 
 
-{-| Get the lightness value of an color if projected into the HSL space.
--}
-getLightness : Color -> Float
-getLightness =
-    .lightness << toHsla
+{-| Determine if a color is light, that is, if the lightness is over 50% (`L* > 0.5`). Using the L\* CIELAB color space for human percieved lightness.
 
+Useful for example if you want to change font color based on the lightness of the color.
 
-{-| Determine wether the color is a light color. Uses `lightness >= 0.5` of the color in HSL space.
 -}
 isLight : Color -> Bool
-isLight =
-    (\c -> c >= 0.5) << getLightness
+isLight c =
+    lightness c > 50
+
+
+{-| Lightness is the **visual perception** of the luminance L of an object. It is the L\* component of a color in the CIELAB and CIELUV space.
+
+For more information on this, take a look at the implementation details!
+
+-}
+lightness : Color -> Float
+lightness =
+    Color.Lightness.lightness
 
 
 

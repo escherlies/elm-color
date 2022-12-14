@@ -28,3 +28,15 @@ fractionalModBy modulus x =
 clamp01 : number -> number
 clamp01 =
     clamp 0 1
+
+
+{-| Call a function trice with one argument
+
+    gray : Float -> Color
+    gray =
+        callTrice rgb
+
+-}
+callTrice : (b -> b -> b -> a) -> b -> a
+callTrice a b =
+    a b b b
