@@ -8,9 +8,10 @@ module Color exposing
     , mapRgb, mapRed, mapGreen, mapBlue, mapAlpha
     , mapHue, mapLightness, mapSaturation
     , rgb255, rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
+    , black, white
     )
 
-{-| An Elm package to programmatically work with web colors.
+{-| An Elm package to work with web colors.
 
 Example usage
 
@@ -30,10 +31,19 @@ Example usage
     green =
         hsl 164 0.93 0.34
 
+    fontColor : Color
+    fontColor =
+        if isLight green then
+            black
+
+        else
+            white
+
     viewHtml : Html msg
     viewHtml =
         Html.div
             [ style "background-color" (Color.toCssString green)
+            , style "color" (Color.toCssString fontColor)
             ]
             [ Html.text (toCssString green) ]
 
@@ -89,6 +99,11 @@ Example usage
 More constructors
 
 @docs rgb255, rgba, hsla, rgba255, fromRgb, fromRgba, fromHsla, fromRgb255, fromHsl
+
+
+# Helper colors
+
+@docs black, white
 
 -}
 
@@ -274,13 +289,6 @@ fromHsla :
     -> Color
 fromHsla =
     Color.Hsl.fromHsla
-
-
-{-| Create a gray color. I.e. for a 50% gray: `gray 0.5`
--}
-gray : Float -> Color
-gray =
-    callTrice rgb
 
 
 
@@ -490,3 +498,28 @@ mapBlue =
 mapAlpha : (Float -> Float) -> Color -> Color
 mapAlpha =
     Color.Transform.mapAlpha
+
+
+
+--
+
+
+{-| Create a gray color. I.e. for a 50% gray: `gray 0.5`
+-}
+gray : Float -> Color
+gray =
+    callTrice rgb
+
+
+{-| #000000
+-}
+black : Color
+black =
+    gray 0
+
+
+{-| #FFFFFF
+-}
+white : Color
+white =
+    gray 1

@@ -1,6 +1,6 @@
 # elm-color
 
-An Elm package to programmatically work with web colors.
+An Elm package to work with web colors.
 
 
 # Example
@@ -35,10 +35,20 @@ green =
     hsl 164 0.93 0.34
 
 
+fontColor : Color
+fontColor =
+    if isLight green then
+        black
+
+    else
+        white
+
+
 viewHtml : Html msg
 viewHtml =
     Html.div
         [ style "background-color" (Color.toCssString green)
+        , style "color" (Color.toCssString fontColor)
         ]
         [ Html.text (toCssString green) ]
 
@@ -52,6 +62,7 @@ view : Element msg
 view =
     el
         [ Element.Background.color (toElementColor green)
+        , Element.Font.color (toElementColor fontColor)
         ]
         (text (toCssString green))
 
@@ -69,7 +80,7 @@ toElementColor =
 
 This package is a new implementation from the ground up with many more features. However, it shares the same api as [avh4/elm-color](https://package.elm-lang.org/packages/avh4/elm-color/latest/). Since that package doesn't seem to be actively maintained anymore, you can use this new package as a drop-in replacement.
 
-## Compiled elm readme
+## Readme created with elm-generate-readme
 
 To make sure the examples work, this readme is compiled with [elm-generate-readme](https://github.com/escherlies/elm-generate-readme) :)
 

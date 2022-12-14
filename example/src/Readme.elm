@@ -1,8 +1,9 @@
-module Example exposing (..)
+module Readme exposing (..)
 
-import Color exposing (Color, fromHexUnsafe, fromPalette, hsl, rgb, rgb255, toCssString)
+import Color exposing (Color, black, fromHexUnsafe, fromPalette, hsl, isLight, rgb, rgb255, toCssString, white)
 import Element exposing (Element, el, text)
 import Element.Background
+import Element.Font
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 
@@ -10,7 +11,7 @@ import Html.Attributes exposing (style)
 
 {- # elm-color
 
-   An Elm package to programmatically work with web colors.
+   An Elm package to work with web colors.
 
 
    # Example
@@ -46,10 +47,20 @@ green =
     hsl 164 0.93 0.34
 
 
+fontColor : Color
+fontColor =
+    if isLight green then
+        black
+
+    else
+        white
+
+
 viewHtml : Html msg
 viewHtml =
     Html.div
         [ style "background-color" (Color.toCssString green)
+        , style "color" (Color.toCssString fontColor)
         ]
         [ Html.text (toCssString green) ]
 
@@ -63,6 +74,7 @@ view : Element msg
 view =
     el
         [ Element.Background.color (toElementColor green)
+        , Element.Font.color (toElementColor fontColor)
         ]
         (text (toCssString green))
 
