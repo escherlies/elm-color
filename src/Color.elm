@@ -399,7 +399,7 @@ Useful for example if you want to change font color based on the lightness of th
 -}
 isLight : Color -> Bool
 isLight c =
-    lightness c > 50
+    lightness c > 0.5
 
 
 {-| Lightness is the **visual perception** of the luminance L of an object. It is the L\* component of a color in the CIELAB and CIELUV space.

@@ -1,5 +1,6 @@
 module Color.Lightness.Test exposing (..)
 
+import Color exposing (isLight)
 import Color.Internal exposing (rgb, rgb255)
 import Color.Lightness exposing (lightness)
 import Color.Test.Utils exposing (equalFloat)
@@ -28,6 +29,14 @@ suite =
             \_ ->
                 lightness (callTrice rgb255 119)
                     |> equalFloat 0.5003443879253823
+        , test "Middle Gray (percieved) + 1 should be light" <|
+            \_ ->
+                isLight (callTrice rgb255 120)
+                    |> Expect.equal True
+        , test "Middle Gray (percieved) - 1 should not be light" <|
+            \_ ->
+                isLight (callTrice rgb255 118)
+                    |> Expect.equal False
         ]
 
 
