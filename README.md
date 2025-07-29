@@ -5,7 +5,7 @@ An Elm package to work with web colors.
 
 # Example
 
-![](./docs/Example.b3f19e1.png)
+![](./docs/Example.png)
 
 You can find this example at `example/src/Main.elm`.
 

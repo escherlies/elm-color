@@ -1,4 +1,4 @@
-module Color.Lightness exposing (lightness)
+module Color.Lightness exposing (lightness, luminance)
 
 import Color.Internal exposing (Color(..))
 

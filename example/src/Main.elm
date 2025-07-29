@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Color exposing (fromHexUnsafe, gray, hsl, hsla, rgb, rgb255, toCssString, toHsla)
+import Color.Accessibility exposing (TextSize(..), contrastRatio, formatContrastRatio, meetsWcgAA, meetsWcgAAA)
 import Element exposing (alpha, centerX, centerY, column, el, fill, height, layout, padding, paragraph, px, row, spacing, text, width)
 import Element.Background
 import Element.Font
@@ -63,6 +64,7 @@ view _ =
                         (List.range 0 20)
                     )
                 )
+            , contrastExamples
             ]
         )
 
@@ -144,6 +146,68 @@ shadesAnnotation =
                         )
                 )
                 (List.reverse <| List.range -1 1)
+        ]
+
+
+contrastExamples : Element.Element ()
+contrastExamples =
+    column [ spacing 15, width fill ]
+        [ el [ Element.Font.bold, Element.Font.size 14 ] <| text "WCAG Contrast Ratio Examples"
+        , row [ spacing 20, width fill ]
+            [ contrastExample "Good contrast" (rgb 0 0 0) (rgb 1 1 1)
+            , contrastExample "Poor contrast" (rgb 0.7 0.7 0.7) (rgb 1 1 1)
+            , contrastExample "Medium contrast" (rgb 0.45 0.45 0.45) (rgb 1 1 1)
+            , contrastExample "Blue on white" (rgb 0 0 0.8) (rgb 1 1 1)
+            ]
+        ]
+
+
+contrastExample : String -> Color.Color -> Color.Color -> Element.Element ()
+contrastExample label foreground background =
+    let
+        ratio =
+            contrastRatio foreground background
+
+        aaPass =
+            meetsWcgAA Normal foreground background
+
+        aaaPass =
+            meetsWcgAAA Normal foreground background
+
+        statusText =
+            if aaaPass then
+                "AAA ✓"
+
+            else if aaPass then
+                "AA ✓"
+
+            else
+                "Fail ✗"
+
+        statusColor =
+            if aaaPass then
+                toElementColor (rgb 0 0.6 0)
+
+            else if aaPass then
+                toElementColor (rgb 0.8 0.6 0)
+
+            else
+                toElementColor (rgb 0.8 0 0)
+    in
+    column [ spacing 8, width (px 140) ]
+        [ el
+            [ Element.Background.color (toElementColor background)
+            , Element.Font.color (toElementColor foreground)
+            , width fill
+            , height (px 40)
+            , Element.Font.center
+            , padding 8
+            ]
+            (el [ centerX, centerY ] <| text label)
+        , column [ spacing 4, Element.Font.size 10 ]
+            [ text ("Ratio: " ++ formatContrastRatio ratio)
+            , el [ Element.Font.color statusColor ] <| text statusText
+            ]
         ]
 
 
