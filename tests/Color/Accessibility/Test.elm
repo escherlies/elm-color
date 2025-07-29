@@ -128,22 +128,22 @@ suite =
                         |> .large
                         |> Expect.equal AA
             ]
-        , describe "meetsWcgAA"
+        , describe "meetsWcagAA"
             [ test "Black on white meets AA for normal text" <|
                 \_ ->
-                    meetsWcgAA Normal (rgb 0 0 0) (rgb 1 1 1)
+                    meetsWcagAA Normal (rgb 0 0 0) (rgb 1 1 1)
                         |> Expect.equal True
             , test "Black on white meets AA for large text" <|
                 \_ ->
-                    meetsWcgAA Large (rgb 0 0 0) (rgb 1 1 1)
+                    meetsWcagAA Large (rgb 0 0 0) (rgb 1 1 1)
                         |> Expect.equal True
             , test "Light gray on white does not meet AA for normal text" <|
                 \_ ->
-                    meetsWcgAA Normal (rgb 0.7 0.7 0.7) (rgb 1 1 1)
+                    meetsWcagAA Normal (rgb 0.7 0.7 0.7) (rgb 1 1 1)
                         |> Expect.equal False
             , test "Light gray on white does not meet AA for large text either" <|
                 \_ ->
-                    meetsWcgAA Large (rgb 0.7 0.7 0.7) (rgb 1 1 1)
+                    meetsWcagAA Large (rgb 0.7 0.7 0.7) (rgb 1 1 1)
                         |> Expect.equal False
             , test "Very light gray on white does not meet AA for any text size" <|
                 \_ ->
@@ -155,27 +155,27 @@ suite =
                             rgb 1 1 1
                     in
                     Expect.all
-                        [ \_ -> meetsWcgAA Normal veryLightGray white |> Expect.equal False
-                        , \_ -> meetsWcgAA Large veryLightGray white |> Expect.equal False
+                        [ \_ -> meetsWcagAA Normal veryLightGray white |> Expect.equal False
+                        , \_ -> meetsWcagAA Large veryLightGray white |> Expect.equal False
                         ]
                         ()
             ]
-        , describe "meetsWcgAAA"
+        , describe "meetsWcagAAA"
             [ test "Black on white meets AAA for normal text" <|
                 \_ ->
-                    meetsWcgAAA Normal (rgb 0 0 0) (rgb 1 1 1)
+                    meetsWcagAAA Normal (rgb 0 0 0) (rgb 1 1 1)
                         |> Expect.equal True
             , test "Black on white meets AAA for large text" <|
                 \_ ->
-                    meetsWcgAAA Large (rgb 0 0 0) (rgb 1 1 1)
+                    meetsWcagAAA Large (rgb 0 0 0) (rgb 1 1 1)
                         |> Expect.equal True
             , test "Medium gray on white does not meet AAA for normal text" <|
                 \_ ->
-                    meetsWcgAAA Normal (rgb 0.5 0.5 0.5) (rgb 1 1 1)
+                    meetsWcagAAA Normal (rgb 0.5 0.5 0.5) (rgb 1 1 1)
                         |> Expect.equal False
             , test "Medium gray on white does not meet AAA for large text either" <|
                 \_ ->
-                    meetsWcgAAA Large (rgb 0.5 0.5 0.5) (rgb 1 1 1)
+                    meetsWcagAAA Large (rgb 0.5 0.5 0.5) (rgb 1 1 1)
                         |> Expect.equal False
             , test "Dark gray on white meets AAA for both text sizes" <|
                 \_ ->
@@ -187,8 +187,8 @@ suite =
                             rgb 1 1 1
                     in
                     Expect.all
-                        [ \_ -> meetsWcgAAA Normal darkGray white |> Expect.equal True
-                        , \_ -> meetsWcgAAA Large darkGray white |> Expect.equal True
+                        [ \_ -> meetsWcagAAA Normal darkGray white |> Expect.equal True
+                        , \_ -> meetsWcagAAA Large darkGray white |> Expect.equal True
                         ]
                         ()
             ]
@@ -261,7 +261,7 @@ suite =
                         |> equalFloat 1.0
                 )
             , fuzz fuzzColor
-                "wcagLevel should be consistent with individual meetsWcgAA/AAA functions"
+                "wcagLevel should be consistent with individual meetsWcagAA/AAA functions"
                 (\foreground ->
                     let
                         background =
@@ -272,16 +272,16 @@ suite =
                             wcagLevel foreground background
 
                         normalAA =
-                            meetsWcgAA Normal foreground background
+                            meetsWcagAA Normal foreground background
 
                         normalAAA =
-                            meetsWcgAAA Normal foreground background
+                            meetsWcagAAA Normal foreground background
 
                         largeAA =
-                            meetsWcgAA Large foreground background
+                            meetsWcagAA Large foreground background
 
                         largeAAA =
-                            meetsWcgAAA Large foreground background
+                            meetsWcagAAA Large foreground background
                     in
                     Expect.all
                         [ \_ ->
