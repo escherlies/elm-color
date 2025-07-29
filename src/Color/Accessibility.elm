@@ -1,4 +1,9 @@
-module Color.Accessibility exposing (..)
+module Color.Accessibility exposing
+    ( WcagLevel(..), TextSize(..)
+    , contrastRatio
+    , meetsWcagAA, meetsWcagAAA, wcagLevel
+    , formatContrastRatio
+    )
 
 {-| WCAG accessibility functions for color contrast analysis.
 
@@ -18,7 +23,7 @@ for color combinations, helping ensure your color choices meet accessibility sta
 
 # WCAG Compliance
 
-@docs meetsWcag, wcagLevel
+@docs meetsWcagAA, meetsWcagAAA, wcagLevel
 
 
 # Formatting
@@ -166,13 +171,13 @@ wcagLevel foreground background =
 
 {-| Check if two colors meet WCAG AA contrast requirements for a given text size.
 
-        meetsWcgAA Normal (rgb 0 0 0) (rgb 1 1 1) --> True (21:1 > 4.5:1)
-        meetsWcgAA Normal (rgb 0.7 0.7 0.7) (rgb 1 1 1) --> False (~2.8:1 < 4.5:1)
-        meetsWcgAA Large (rgb 0.7 0.7 0.7) (rgb 1 1 1) --> True (~2.8:1 > 3:1)
+        meetsWcagAA Normal (rgb 0 0 0) (rgb 1 1 1) --> True (21:1 > 4.5:1)
+        meetsWcagAA Normal (rgb 0.7 0.7 0.7) (rgb 1 1 1) --> False (~2.8:1 < 4.5:1)
+        meetsWcagAA Large (rgb 0.7 0.7 0.7) (rgb 1 1 1) --> True (~2.8:1 > 3:1)
 
 -}
-meetsWcgAA : TextSize -> Color -> Color -> Bool
-meetsWcgAA textSize foreground background =
+meetsWcagAA : TextSize -> Color -> Color -> Bool
+meetsWcagAA textSize foreground background =
     let
         ratio =
             contrastRatio foreground background
@@ -190,13 +195,13 @@ meetsWcgAA textSize foreground background =
 
 {-| Check if two colors meet WCAG AAA contrast requirements for a given text size.
 
-        meetsWcgAAA Normal (rgb 0 0 0) (rgb 1 1 1) --> True (21:1 > 7:1)
-        meetsWcgAAA Normal (rgb 0.7 0.7 0.7) (rgb 1 1 1) --> False (~2.8:1 < 7:1)
-        meetsWcgAAA Large (rgb 0.3 0.3 0.3) (rgb 1 1 1) --> True (~5.7:1 > 4.5:1)
+        meetsWcagAAA Normal (rgb 0 0 0) (rgb 1 1 1) --> True (21:1 > 7:1)
+        meetsWcagAAA Normal (rgb 0.7 0.7 0.7) (rgb 1 1 1) --> False (~2.8:1 < 7:1)
+        meetsWcagAAA Large (rgb 0.3 0.3 0.3) (rgb 1 1 1) --> True (~5.7:1 > 4.5:1)
 
 -}
-meetsWcgAAA : TextSize -> Color -> Color -> Bool
-meetsWcgAAA textSize foreground background =
+meetsWcagAAA : TextSize -> Color -> Color -> Bool
+meetsWcagAAA textSize foreground background =
     let
         ratio =
             contrastRatio foreground background
